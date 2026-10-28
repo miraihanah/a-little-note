@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff7f2">
+  <title>A little reminder for you</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #503c3b;
+      --muted: #8d7472;
+      --rose: #d67578;
+      --rose-dark: #b85963;
+      --cream: #fffaf5;
+      --peach: #f7e4dc;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 12% 8%, #f9e3da 0, transparent 34rem),
+        radial-gradient(ellipse at 90% 40%, #f4e3e7 0, transparent 30rem),
+        var(--cream);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+
+    .page {
+      width: min(100% - 32px, 920px);
+      margin: 0 auto;
+      padding: 28px 0 64px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--muted);
+      font: 600 0.8rem/1.4 system-ui, sans-serif;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .heart { color: var(--rose); font-size: 1.15rem; }
+
+    .hero {
+      min-height: 490px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      padding: 72px 18px 58px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--rose-dark);
+      font: 600 0.76rem/1.4 system-ui, sans-serif;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 720px;
+      margin: 0;
+      font-size: clamp(2.8rem, 8vw, 5.7rem);
+      font-weight: 400;
+      letter-spacing: -0.055em;
+      line-height: 0.98;
+    }
+
+    h1 em { color: var(--rose); font-weight: 400; }
+
+    .intro {
+      max-width: 510px;
+      margin: 25px auto 0;
+      color: var(--muted);
+      font-size: 1.12rem;
+      line-height: 1.8;
+    }
+
+    .music {
+      width: min(100%, 430px);
+      margin-top: 30px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border: 1px solid #eed9d2;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.65);
+      text-align: left;
+    }
+
+    .music-icon {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: white;
+      background: var(--rose);
+      font: 1.1rem system-ui, sans-serif;
+    }
+
+    .music-copy { flex: 1; min-width: 0; }
+    .music-copy strong { display: block; font-size: 0.96rem; font-weight: 500; }
+    .music-copy span { color: var(--muted); font: 0.76rem/1.6 system-ui, sans-serif; }
+    .music input { width: 100%; max-width: 130px; color: var(--muted); font: 0.72rem system-ui, sans-serif; }
+    audio { display: none; }
+
+    section { margin-top: 28px; }
+
+    .section-heading {
+      margin-bottom: 22px;
+      text-align: center;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 5vw, 2.8rem);
+      font-weight: 400;
+      letter-spacing: -0.035em;
+    }
+
+    .section-heading p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font: 0.9rem/1.6 system-ui, sans-serif;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .photo {
+      min-height: 230px;
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      border: 1px dashed #dfb9b0;
+      border-radius: 20px;
+      color: #a17d77;
+      background: linear-gradient(145deg, #f8e9e1, #f4e6ea);
+      text-align: center;
+      transition: transform 180ms ease;
+    }
+
+    .photo:nth-child(2) { background: linear-gradient(145deg, #f4e9e4, #eadde5); }
+    .photo:nth-child(3) { background: linear-gradient(145deg, #f6e8df, #f3e7d9); }
+    .photo:hover { transform: translateY(-3px); }
+    .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .photo span { font: 0.82rem/1.6 system-ui, sans-serif; }
+    .photo .remove {
+      z-index: 1;
+      position: absolute;
+      top: 9px;
+      right: 9px;
+      border: 0;
+      border-radius: 999px;
+      padding: 6px 9px;
+      color: white;
+      background: rgba(45, 31, 31, 0.58);
+      font: 0.72rem system-ui, sans-serif;
+    }
+
+    .upload {
+      display: block;
+      width: fit-content;
+      margin: 18px auto 0;
+      padding: 11px 18px;
+      border: 1px solid #e8c9c1;
+      border-radius: 999px;
+      color: var(--rose-dark);
+      background: #fffdfb;
+      font: 600 0.82rem system-ui, sans-serif;
+      cursor: pointer;
+    }
+
+    .upload input { display: none; }
+
+    .note {
+      margin: 62px auto;
+      max-width: 670px;
+      padding: 34px clamp(22px, 6vw, 55px);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.67);
+      box-shadow: 0 14px 50px rgba(134, 83, 75, 0.07);
+      text-align: center;
+    }
+
+    .note p {
+      margin: 14px 0 0;
+      color: #715958;
+      font-size: 1.12rem;
+      line-height: 1.85;
+    }
+
+    .question {
+      padding: 54px 18px 48px;
+      border-radius: 28px;
+      background: #f7e8e2;
+      text-align: center;
+    }
+
+    .question h2 { max-width: 600px; margin: auto; }
+    .answers { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 25px; }
+
+    .answer {
+      min-height: 46px;
+      padding: 12px 19px;
+      border: 1px solid #e4c2b9;
+      border-radius: 999px;
+      color: var(--rose-dark);
+      background: #fffaf7;
+      font: 600 0.84rem system-ui, sans-serif;
+      transition: background 160ms ease, transform 160ms ease;
+    }
+
+    .answer:hover { transform: translateY(-2px); background: white; }
+    .answer.primary { border-color: var(--rose); color: white; background: var(--rose); }
+    .answer.primary:hover { background: var(--rose-dark); }
+
+    .reply {
+      min-height: 32px;
+      margin: 20px 0 0;
+      color: #765252;
+      font-size: 1.12rem;
+      line-height: 1.6;
+    }
+
+    footer {
+      padding-top: 32px;
+      color: var(--muted);
+      font: 0.76rem/1.7 system-ui, sans-serif;
+      text-align: center;
+    }
+
+    @media (max-width: 620px) {
+      .hero { min-height: 430px; padding-top: 55px; }
+      .gallery { grid-template-columns: 1fr; }
+      .photo { min-height: 260px; }
+      .music { flex-wrap: wrap; }
+      .music input { max-width: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <span>a little something for you</span>
+      <span class="heart" aria-hidden="true">♥</span>
+    </header>
+
+    <section class="hero" aria-labelledby="main-title">
+      <p class="eyebrow">For my favorite person</p>
+      <h1 id="main-title">You are more than <em>enough.</em></h1>
+      <p class="intro">Not because of anything you do or anything you have to prove. Just because you’re you, and I feel lucky to love you.</p>
+
+      <div class="music">
+        <span class="music-icon" aria-hidden="true">♫</span>
+        <div class="music-copy">
+          <strong>Our little soundtrack</strong>
+          <span>Coming Up Roses · Harry Styles</span>
+        </div>
+        <label class="upload" style="margin:0;padding:9px 12px">
+          Choose song
+          <input id="song-file" type="file" accept="audio/*" aria-label="Choose an audio file">
+        </label>
+      </div>
+      <audio id="song" controls></audio>
+    </section>
+
+    <section aria-labelledby="gallery-title">
+      <div class="section-heading">
+        <h2 id="gallery-title">Little pieces of us</h2>
+        <p>Add your favorite photos here — they stay in this browser session and are never uploaded.</p>
+      </div>
+      <div class="gallery" id="gallery">
+        <div class="photo"><span>♡<br>Pick a moment to add</span></div>
+        <div class="photo"><span>♡<br>Maybe one that makes you smile</span></div>
+        <div class="photo"><span>♡<br>Or a favorite adventure</span></div>
+      </div>
+      <label class="upload">
+        Add photos
+        <input id="photo-files" type="file" accept="image/*" multiple aria-label="Add photos">
+      </label>
+    </section>
+
+    <section class="note" aria-labelledby="note-title">
+      <p class="eyebrow">Just so you know</p>
+      <h2 id="note-title">You never have to earn my love.</h2>
+      <p>On your good days, your quiet days, and all the in-between days — I’m here. I love the real you, exactly as you are. And if you ever need reassurance, you can always ask me.</p>
+    </section>
+
+    <section class="question" aria-labelledby="question-title">
+      <p class="eyebrow">One tiny question</p>
+      <h2 id="question-title">Do you love me?</h2>
+      <div class="answers">
+        <button class="answer primary" data-reply="I love you more, sayang. Always. ♥">Of course I do</button>
+        <button class="answer" data-reply="I love you more, sayang — just teasing. You can always be honest with me. ♥">No... wait, ask me again</button>
+        <button class="answer" data-reply="That’s okay, sayang. No pressure — I’m right here whenever you want to talk. ♥">I need a little time</button>
+      </div>
+      <p class="reply" id="reply" role="status" aria-live="polite"></p>
+    </section>
+
+    <footer>Made with all my heart, for you. <span class="heart" aria-hidden="true">♥</span></footer>
+  </main>
+
+  <script>
+    const songInput = document.querySelector("#song-file");
+    const audio = document.querySelector("#song");
+    let songUrl;
+
+    songInput.addEventListener("change", () => {
+      const file = songInput.files[0];
+      if (!file) return;
+      if (songUrl) URL.revokeObjectURL(songUrl);
+      songUrl = URL.createObjectURL(file);
+      audio.src = songUrl;
+      audio.style.display = "block";
+      audio.setAttribute("aria-label", "Play the selected song");
+    });
+
+    const photoInput = document.querySelector("#photo-files");
+    const gallery = document.querySelector("#gallery");
+
+    photoInput.addEventListener("change", () => {
+      for (const file of photoInput.files) {
+        if (!file.type.startsWith("image/")) continue;
+        const card = document.createElement("div");
+        card.className = "photo";
+        const image = document.createElement("img");
+        image.src = URL.createObjectURL(file);
+        image.alt = file.name.replace(/\.[^.]+$/, "");
+        const remove = document.createElement("button");
+        remove.className = "remove";
+        remove.type = "button";
+        remove.textContent = "Remove";
+        remove.setAttribute("aria-label", `Remove ${image.alt || "photo"}`);
+        remove.addEventListener("click", () => {
+          URL.revokeObjectURL(image.src);
+          card.remove();
+        });
+        card.append(image, remove);
+        gallery.append(card);
+      }
+      photoInput.value = "";
+    });
+
+    document.querySelectorAll(".answer").forEach((button) => {
+      button.addEventListener("click", () => {
+        document.querySelector("#reply").textContent = button.dataset.reply;
+      });
+    });
+  </script>
+</body>
+</html>
