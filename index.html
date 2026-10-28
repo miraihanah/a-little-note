@@ -87,17 +87,16 @@
     }
 
     .music {
-      width: min(100%, 430px);
+      width: min(100%, 560px);
       margin-top: 30px;
       padding: 16px 18px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
       border: 1px solid #eed9d2;
       border-radius: 18px;
       background: rgba(255, 255, 255, 0.65);
       text-align: left;
     }
+
+    .music-heading { display: flex; align-items: center; gap: 14px; }
 
     .music-icon {
       width: 42px;
@@ -114,8 +113,8 @@
     .music-copy { flex: 1; min-width: 0; }
     .music-copy strong { display: block; font-size: 0.96rem; font-weight: 500; }
     .music-copy span { color: var(--muted); font: 0.76rem/1.6 system-ui, sans-serif; }
-    .music input { width: 100%; max-width: 130px; color: var(--muted); font: 0.72rem system-ui, sans-serif; }
-    audio { display: none; }
+    .music iframe { display: block; width: 100%; aspect-ratio: 16 / 9; margin-top: 15px; border: 0; border-radius: 12px; }
+    .music-link { display: inline-block; margin-top: 12px; color: var(--rose-dark); font: 0.78rem/1.5 system-ui, sans-serif; }
 
     section { margin-top: 28px; }
 
@@ -274,17 +273,22 @@
       <p class="intro">Not because of anything you do or anything you have to prove. Just because you’re you, and I feel lucky to love you.</p>
 
       <div class="music">
-        <span class="music-icon" aria-hidden="true">♫</span>
-        <div class="music-copy">
-          <strong>Our little soundtrack</strong>
-          <span>Coming Up Roses · Harry Styles</span>
+        <div class="music-heading">
+          <span class="music-icon" aria-hidden="true">♫</span>
+          <div class="music-copy">
+            <strong>Our little soundtrack</strong>
+            <span>Coming Up Roses · Harry Styles</span>
+          </div>
         </div>
-        <label class="upload" style="margin:0;padding:9px 12px">
-          Choose song
-          <input id="song-file" type="file" accept="audio/*" aria-label="Choose an audio file">
-        </label>
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/M4qX5wzx-wY"
+          title="Coming Up Roses — Harry Styles"
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+        <a class="music-link" href="https://youtu.be/M4qX5wzx-wY?si=2BHwxYHxlzNFo5NP" target="_blank" rel="noopener noreferrer">Open on YouTube ↗</a>
       </div>
-      <audio id="song" controls></audio>
     </section>
 
     <section aria-labelledby="gallery-title">
@@ -324,20 +328,6 @@
   </main>
 
   <script>
-    const songInput = document.querySelector("#song-file");
-    const audio = document.querySelector("#song");
-    let songUrl;
-
-    songInput.addEventListener("change", () => {
-      const file = songInput.files[0];
-      if (!file) return;
-      if (songUrl) URL.revokeObjectURL(songUrl);
-      songUrl = URL.createObjectURL(file);
-      audio.src = songUrl;
-      audio.style.display = "block";
-      audio.setAttribute("aria-label", "Play the selected song");
-    });
-
     const photoInput = document.querySelector("#photo-files");
     const gallery = document.querySelector("#gallery");
 
